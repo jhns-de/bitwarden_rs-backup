@@ -49,6 +49,11 @@ if [ $? -ne 0 ]; then
   /usr/sbin/crond -L /app/log/cron.log
 fi
 
+if [ $DIRECT_BACKUP = true ]
+then
+  $BACKUP_CMD
+fi
+
 # Restart script as user "app:app"
 if [ "$(id -u)" -eq 0 ]; then
   echo "Restarting $(basename "$0") as app:app"
@@ -56,10 +61,5 @@ if [ "$(id -u)" -eq 0 ]; then
 fi
 
 echo "$(date "+%F %T") - Container started" > "$LOGFILE"
-
-if [ $DIRECT_BACKUP = true ]
-then
-  $BACKUP_CMD
-fi
 
 tail -F "$LOGFILE" /app/log/cron.log
