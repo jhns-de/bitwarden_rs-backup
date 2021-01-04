@@ -2,7 +2,7 @@
 
 # Check if db file is accessible and exit otherwise
 if [ ! -e "$DB_FILE" ]
-then 
+then
   echo "Database $DB_FILE not found!\nPlease check if you mounted the bitwarden_rs volume with '--volumes-from=bitwarden'"!
   exit 1;
 fi
@@ -16,11 +16,14 @@ fi
 
 /usr/bin/sqlite3 $DB_FILE ".backup $FINAL_BACKUP_FILE"
 if [ $? -eq 0 ]
-then 
+then
   echo "$(date "+%F %T") - Backup successfull"
 else
   echo "$(date "+%F %T") - Backup unsuccessfull"
 fi
+
+cd /backup
+/opt/duplicacy -log backup -stats -threads 15 -dry-run
 
 if [ ! -z $DELETE_AFTER ] && [ $DELETE_AFTER -gt 0 ]
 then

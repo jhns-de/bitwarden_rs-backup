@@ -7,10 +7,12 @@ RUN apk add --no-cache \
     busybox-suid \
     su-exec
 
+RUN wget -O /opt/duplicacy https://github.com/gilbertchen/duplicacy/releases/download/v2.7.2/duplicacy_linux_x64_2.7.2 && chmod 777 /opt/duplicacy
+
 ENV DB_FILE /data/db.sqlite3
-ENV BACKUP_FILE /data/db_backup/backup.sqlite3
+ENV BACKUP_FILE /backup/backup.sqlite3
 ENV BACKUP_FILE_PERMISSIONS 700
-ENV CRON_TIME "0 5 * * *"
+ENV CRON_TIME "0 3 * * *"
 ENV TIMESTAMP false
 ENV UID 100
 ENV GID 100
@@ -24,7 +26,7 @@ COPY backup.sh /app/
 RUN mkdir /app/log/ \
     && chown -R app:app /app/ \
     && chmod -R 777 /app/ \
-    && chmod +x /usr/local/bin/entrypoint.sh 
+    && chmod +x /usr/local/bin/entrypoint.sh
 #    && echo "\$CRON_TIME \$BACKUP_CMD >> \$LOGFILE 2>&1" | crontab -
 
 ENTRYPOINT ["entrypoint.sh"]
