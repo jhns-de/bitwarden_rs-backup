@@ -1,6 +1,6 @@
 name: Docker Image CI
 
-on: [psuh]
+on: [push]
 
 jobs:
 
