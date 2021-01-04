@@ -57,7 +57,7 @@ fi
 
 echo "$(date "+%F %T") - Container started" > "$LOGFILE"
 
-if [ $DIRECT_BACKUP = true]
+if [ $DIRECT_BACKUP = true ]
 then
   $BACKUP_CMD
 fi
