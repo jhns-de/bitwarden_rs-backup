@@ -13,14 +13,18 @@ if [ ! -d "$BACKUP_DIR" ]
 then
   echo "$BACKUP_DIR not exists. Creating it with owner $UID:$GID and permissions $BACKUP_FILE_PERMISSIONS."
   install -o $UID -g $GID -m $BACKUP_FILE_PERMISSIONS -d $BACKUP_DIR
+fi
+
+if [ ! -d "$BACKUP_DIR/.duplicacy" ]
+then
   # init duplicacy
-  if [ -z "$DUPLICACY_PASSWORD"]
+  if [ -z "$DUPLICACY_PASSWORD" ]
   then
     echo "Initializing duplicacy WITHOUT storage encryption. $DUPLICACY_STORAGE_URL"
-    /opt/duplicacy init -repository $BACKUP_DIR bitwarden $DUPLICACY_STORAGE_URL
+    /opt/duplicacy -log init -repository $BACKUP_DIR bitwarden $DUPLICACY_STORAGE_URL
   else
     echo "Initializing duplicacy with storage encryption. $DUPLICACY_STORAGE_URL"
-    /opt/duplicacy init -e -repository $BACKUP_DIR bitwarden $DUPLICACY_STORAGE_URL
+    /opt/duplicacy -log init -e -repository $BACKUP_DIR bitwarden $DUPLICACY_STORAGE_URL
   fi
 fi
 
