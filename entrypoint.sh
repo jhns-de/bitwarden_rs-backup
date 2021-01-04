@@ -16,8 +16,10 @@ then
   # init duplicacy
   if [ -z "$DUPLICACY_PASSWORD"]
   then
+    echo "Initializing duplicacy WITHOUT storage encryption. $DUPLICACY_STORAGE_URL"
     /opt/duplicacy init -repository $BACKUP_DIR bitwarden $DUPLICACY_STORAGE_URL
   else
+    echo "Initializing duplicacy with storage encryption. $DUPLICACY_STORAGE_URL"
     /opt/duplicacy init -e -repository $BACKUP_DIR bitwarden $DUPLICACY_STORAGE_URL
   fi
 fi
@@ -54,4 +56,10 @@ if [ "$(id -u)" -eq 0 ]; then
 fi
 
 echo "$(date "+%F %T") - Container started" > "$LOGFILE"
+
+if [ $DIRECT_BACKUP = true]
+then
+  $BACKUP_CMD
+fi
+
 tail -F "$LOGFILE" /app/log/cron.log
