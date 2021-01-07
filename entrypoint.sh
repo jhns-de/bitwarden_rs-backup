@@ -21,10 +21,10 @@ then
   if [ -z "$DUPLICACY_PASSWORD" ]
   then
     echo "Initializing duplicacy WITHOUT storage encryption. $DUPLICACY_STORAGE_URL"
-    /opt/duplicacy -log init -repository $BACKUP_DIR bitwarden $DUPLICACY_STORAGE_URL
+    /opt/duplicacy -log init -repository $BACKUP_DIR -pref-dir $BACKUP_DIR/.duplicacy bitwarden $DUPLICACY_STORAGE_URL
   else
     echo "Initializing duplicacy with storage encryption. $DUPLICACY_STORAGE_URL"
-    /opt/duplicacy -log init -e -repository $BACKUP_DIR bitwarden $DUPLICACY_STORAGE_URL
+    /opt/duplicacy -log init -e -repository $BACKUP_DIR -pref-dir $BACKUP_DIR/.duplicacy bitwarden $DUPLICACY_STORAGE_URL
   fi
 fi
 
@@ -59,10 +59,10 @@ then
 fi
 
 # Restart script as user "app:app"
-if [ "$(id -u)" -eq 0 ]; then
-  echo "Restarting $(basename "$0") as app:app"
-  exec su-exec app:app "$0" "$@"
-fi
+#if [ "$(id -u)" -eq 0 ]; then
+#  echo "Restarting $(basename "$0") as app:app"
+#  exec su-exec app:app "$0" "$@"
+#fi
 
 echo "$(date "+%F %T") - Container started" > "$LOGFILE"
 

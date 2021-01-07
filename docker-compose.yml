@@ -1,14 +1,15 @@
----
+
 version: '3.7'
 services:
   bitwarden:
     image: bitwardenrs/server
     container_name: bitwarden
-    ports:
-      - 8002:80
+#    ports:
+#      - 8002:80
     volumes:
       - ./data:/data
     restart: unless-stopped
+
 
   bw_backup:
     image: jhns/bw_backup
@@ -32,4 +33,6 @@ services:
       - DUPLICACY_PASSWORD=encryption_password_goes_here
       - DUPLICACY_B2_ID=key_id_goes_here
       - DUPLICACY_B2_KEY=application_key_goes_here
+      - DELETE_AFTER=10
+      - DIRECT_BACKUP=true
 

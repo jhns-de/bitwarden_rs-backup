@@ -23,7 +23,7 @@ else
 fi
 
 cd /backup
-/opt/duplicacy -log backup -stats -threads 15 -dry-run
+/opt/duplicacy -log backup -stats -threads 15
 
 if [ ! -z $DELETE_AFTER ] && [ $DELETE_AFTER -gt 0 ]
 then
