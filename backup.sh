@@ -14,10 +14,11 @@ echo "Starting rsync backup of attachments and icon_cache folders"
 if [ $TIMESTAMP = true ]
 then
   FINAL_BACKUP_FILE="$(echo "$BACKUP_FILE")_$(date "+%F-%H%M%S")"
-  /usr/bin/rsync -abi --backup-dir="$BACKUP_DIR/$(date +%F-%H%M%S)" $DB_DIR/attachments $DB_DIR/icon_cache $BACKUP_DIR
+  echo "TIMESTAMP TRUE"
+  /usr/bin/rsync -ai -vv --delete --backup --suffix="_$(date "+%F-%H%M%S")" $DB_DIR/attachments $DB_DIR/icon_cache $BACKUP_DIR
 else
   FINAL_BACKUP_FILE=$BACKUP_FILE
-  /usr/bin/rsync -ai $DB_DIR/attachments $DB_DIR/icon_cache $BACKUP_DIR
+  /usr/bin/rsync -ai --delete $DB_DIR/attachments $DB_DIR/icon_cache $BACKUP_DIR
 fi
 
 if [ $? -eq 0 ]
