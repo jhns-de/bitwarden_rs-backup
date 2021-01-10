@@ -5,7 +5,8 @@ RUN addgroup -S app && adduser -S -G app app
 RUN apk add --no-cache \
     sqlite \
     busybox-suid \
-    su-exec
+    su-exec \
+    rsync
 
 RUN wget -O /opt/duplicacy https://github.com/gilbertchen/duplicacy/releases/download/v2.7.2/duplicacy_linux_x64_2.7.2 && chmod 777 /opt/duplicacy
 
